@@ -26,9 +26,11 @@ export class FindPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    // this.isLoading = true;
     this.subs = this.placesServ.places.subscribe(places => {
       this.loadedPlaces = places;
       this.onFilter(this.filter);
+      // this.isLoading = false;
       // this.relevantPlaces = this.loadedPlaces;
       // this.virtualList = this.relevantPlaces.slice(1);
     });

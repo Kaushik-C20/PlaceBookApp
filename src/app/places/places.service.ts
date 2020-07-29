@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Place } from './place.model';
 import { AuthService } from '../auth/auth.sevice';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { take, map, tap, delay, switchMap } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http';
 
@@ -48,8 +48,17 @@ export class PlacesService {
   }
 
   getPlace(id: string) {
-    return this.places.pipe(take(1), map(places => {
-      return { ...places.find(place => place.id === id) };
+    return this.http.get<PlaceData>(`https://placebookingapp-4a6bc.firebaseio.com/offered-places/${id}.json`)
+    .pipe(map(responseData => {
+      return new Place(
+        id,
+        responseData.title,
+        responseData.description,
+        responseData.imageUrl,
+        responseData.price,
+        new Date(responseData.availableFrom),
+        new Date(responseData.availableTo),
+        responseData.userId);
     }));
   }
 
@@ -72,6 +81,12 @@ export class PlacesService {
   EditPlace(placeId: string, title: string, description: string) {
     let editedPlaces: Place[];
     return this.places.pipe(take(1), switchMap(places => {
+      if(!places || places.length === 0){
+        return this.fetchPlaces();
+      } else {
+        return of(places); // can use this to simply get an observable
+      }
+    }),switchMap(places => { //its an array now
       const index = places.findIndex(place => place.id === placeId);
       editedPlaces = [...places];
       const oldPlace = editedPlaces[index];
