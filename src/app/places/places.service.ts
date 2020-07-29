@@ -15,9 +15,9 @@ interface PlaceData {
   userId: string;
 }
 
-// new Place('p1', 'Grand Hotel', 'Very Famous for its wonderful beauty', 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Place_Jacobins_Lyon.jpg', 199.99, new Date('2020-02-01'), new Date('2020-12-31'), '2'),
-// new Place('p2', 'New York Hotel', 'at the heart of NewYork City', 'https://images.adsttc.com/media/images/5caf/6fab/284d/d1e5/fc00/040d/newsletter/37367894112_c72c20b8e1_o.jpg?1555001231', 220.50, new Date('2020-02-01'), new Date('2020-12-31'), '1'),
-// new Place('p3', 'Manhattan Building', 'at the center of Manhattan', 'https://img.delicious.com.au/ttEaxwsa/del/2018/12/new-york-usa-97371-2.jpg', 250.00, new Date('2020-02-01'), new Date('2020-12-31'), '2')
+// ('p1', 'Grand Hotel', 'Very Famous for its wonderful beauty', 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Place_Jacobins_Lyon.jpg', 199.99, new Date('2020-02-01'), new Date('2020-12-31'), '2'),
+// ('p2', 'New York Hotel', 'at the heart of NewYork City', 'https://images.adsttc.com/media/images/5caf/6fab/284d/d1e5/fc00/040d/newsletter/37367894112_c72c20b8e1_o.jpg?1555001231', 220.50, new Date('2020-02-01'), new Date('2020-12-31'), '1'),
+// ('p3', 'Manhattan Building', 'at the center of Manhattan', 'https://img.delicious.com.au/ttEaxwsa/del/2018/12/new-york-usa-97371-2.jpg', 250.00, new Date('2020-02-01'), new Date('2020-12-31'), '2')
 
 
 @Injectable({
