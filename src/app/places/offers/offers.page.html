@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="m1"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My Offers</ion-title>
+    <ion-buttons slot='primary'>
+      <ion-button routerLink='/places/tabs/offers/new' routerDirection="forward">
+        <ion-icon name='add' slot='icon-only'></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="text-align: center;margin-top: 20px;" *ngIf="!isLoading && loadedPlaces.length>0">
+    <ion-note color="medium" style="margin-bottom:0;font-weight: 700;">Swipe Left to Edit Offers</ion-note>
+  </div>
+  <ion-grid style="margin-top: 0;">
+    <ion-row>
+      <ion-col size='12' size-sm='8' offset-sm='2'>
+        <div *ngIf="isLoading" class="ion-text-center">
+          <ion-spinner color="danger"></ion-spinner>
+        </div>
+        <div *ngIf="!isLoading && loadedPlaces.length === 0" class="ion-text-center">
+          <p>No offers found! Please create one first.</p>
+          <ion-button color="primary" routerLink="/places/tabs/offers/new">Offer New Place</ion-button>
+        </div>
+        <ion-list *ngIf="!isLoading && loadedPlaces.length>0">
+          <ion-item-sliding *ngFor="let place of loadedPlaces" #slidingItem>
+            <app-offer-item [offer]="place"></app-offer-item>
+            <ion-item-options>
+              <ion-item-option color='primary' (click)="onEdit(place.id,slidingItem)">
+                <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+</ion-content>

@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/places/tabs/find"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ place.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col size-md="6" offset-md="3" class="ion-no-padding">
+        <ion-img [src]="place.imageUrl"></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-md="6" offset-md="3" class="ion-text-center">
+        <p style="font-size: large;">{{ place.description }}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="isBookable">
+      <ion-col size-md="6" offset-md="3" class="ion-text-center">
+        <ion-button color='primary' (click)='onBookPlace()'>Book</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
