@@ -7,6 +7,7 @@ import { CreateBookingComponent } from 'src/app/bookings/create-booking/create-b
 import { Subscription } from 'rxjs';
 import { BookingService } from 'src/app/bookings/booking.service';
 import { AuthService } from 'src/app/auth/auth.sevice';
+import { MapModalComponent } from 'src/app/shared/map-modal/map-modal.component';
 
 @Component({
   selector: 'app-place-detail',
@@ -28,7 +29,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
     private loadingCtrl: LoadingController,
     private authService: AuthService,
     private alertCtrl: AlertController,
-    private router:Router
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -42,17 +43,17 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
         this.place = place;
         this.isBookable = place.userId !== this.authService.userId;
         this.isLoading = false;
-      },err => {
+      }, err => {
         this.alertCtrl.create({
-          header:'An error occurred',
-          message:'Could not load the Page.',
-          buttons:[
+          header: 'An error occurred',
+          message: 'Could not load the Page.',
+          buttons: [
             {
-              text:'Okay',handler: ()=>{
-              this.router.navigateByUrl('/places/tabs/find');
-              // this.alertCtrl.dismiss();
-            }
-          }]
+              text: 'Okay', handler: () => {
+                this.router.navigateByUrl('/places/tabs/find');
+                // this.alertCtrl.dismiss();
+              }
+            }]
         }).then(alertEl => {
           alertEl.present();
         });
@@ -98,7 +99,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
       // id: 'modal1'
     }).then(modElement => {
       modElement.present();
-      return modElement.onDidDismiss(); 
+      return modElement.onDidDismiss();
       // returns Promise
     }).then(resultData => {
       if (resultData.role === 'confirm') {
@@ -119,11 +120,24 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
             data.guestNum,
             data.startDate,
             data.endDate
-          ).subscribe(()=>{
+          ).subscribe(() => {
             loadingEl.dismiss();
           });
         });
       }
+    });
+  }
+
+  ShowMap() {
+    this.modalCtrl.create({
+      component: MapModalComponent, componentProps: {
+        center: { lat: this.place.location.lat, lng: this.place.location.lng },
+        selectable: false,
+        closeButtonText: 'Close',
+        Title: this.place.location.address
+      }
+    }).then(modalEl => {
+      modalEl.present();
     });
   }
 

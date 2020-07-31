@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PlacesService } from '../../places.service';
 import { NavController, LoadingController } from '@ionic/angular';
+import { PlaceLocation } from '../../location.model';
 
 @Component({
   selector: 'app-new-offer',
@@ -35,9 +36,16 @@ export class NewOfferPage implements OnInit {
       dateto: new FormControl(null, {
         updateOn: 'blur',
         validators: [Validators.required]
-      })
+      }),
+      location: new FormControl(null, {validators: [Validators.required]})
     });
   }
+
+  onLocationPicked(location: PlaceLocation){
+    this.form.patchValue({location: location});
+  }
+
+  onImagePicked(imageData: string){}
 
   onCreateOffer() {
     if (!this.form.valid) {
@@ -52,7 +60,8 @@ export class NewOfferPage implements OnInit {
         this.form.value.description,
         +this.form.value.price,
         new Date(this.form.value.datefrom),
-        new Date(this.form.value.dateto)
+        new Date(this.form.value.dateto),
+        this.form.value.location
       ).subscribe(() => {
         console.log(this.form);
         loadel.dismiss();

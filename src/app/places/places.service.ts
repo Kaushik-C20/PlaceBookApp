@@ -4,6 +4,7 @@ import { AuthService } from '../auth/auth.sevice';
 import { BehaviorSubject, of } from 'rxjs';
 import { take, map, tap, delay, switchMap } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http';
+import { PlaceLocation } from './location.model';
 
 interface PlaceData {
   availableFrom: string;
@@ -13,6 +14,7 @@ interface PlaceData {
   price: number;
   title: string;
   userId: string;
+  location: PlaceLocation;
 }
 
 // ('p1', 'Grand Hotel', 'Very Famous for its wonderful beauty', 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Place_Jacobins_Lyon.jpg', 199.99, new Date('2020-02-01'), new Date('2020-12-31'), '2'),
@@ -38,7 +40,7 @@ export class PlacesService {
         const places: Place[] = [];
         for (const key in responseData) {
           if (responseData.hasOwnProperty(key)) {
-            places.push(new Place(key, responseData[key]['title'], responseData[key]['description'], responseData[key]['imageUrl'], responseData[key]['price'], new Date(responseData[key]['availableFrom']), new Date(responseData[key]['availableTo']), responseData[key]['userId']));
+            places.push(new Place(key, responseData[key]['title'], responseData[key]['description'], responseData[key]['imageUrl'], responseData[key]['price'], new Date(responseData[key]['availableFrom']), new Date(responseData[key]['availableTo']), responseData[key]['userId'], responseData[key]['location']));
           }
         }
         return places;
@@ -58,13 +60,14 @@ export class PlacesService {
         responseData.price,
         new Date(responseData.availableFrom),
         new Date(responseData.availableTo),
-        responseData.userId);
+        responseData.userId,
+        responseData.location);
     }));
   }
 
-  addPlace(title: string, description: string, price: number, dateFrom: Date, dateTo: Date) {
+  addPlace(title: string, description: string, price: number, dateFrom: Date, dateTo: Date,location: PlaceLocation) {
     let genId: string;
-    const newPlace = new Place(Math.random().toString(), title, description, 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Place_Jacobins_Lyon.jpg', price, dateFrom, dateTo, this.authService.userId);
+    const newPlace = new Place(Math.random().toString(), title, description, 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Place_Jacobins_Lyon.jpg', price, dateFrom, dateTo, this.authService.userId,location);
     return this.http.post<{ name: string }>("https://placebookingapp-4a6bc.firebaseio.com/offered-places.json", { ...newPlace, id: null })
       .pipe(switchMap(responseData => {
         genId = responseData.name;
@@ -90,7 +93,7 @@ export class PlacesService {
       const index = places.findIndex(place => place.id === placeId);
       editedPlaces = [...places];
       const oldPlace = editedPlaces[index];
-      editedPlaces[index] = new Place(oldPlace.id, title, description, oldPlace.imageUrl, oldPlace.price, oldPlace.availableFrom, oldPlace.availableTo, oldPlace.userId);
+      editedPlaces[index] = new Place(oldPlace.id, title, description, oldPlace.imageUrl, oldPlace.price, oldPlace.availableFrom, oldPlace.availableTo, oldPlace.userId,oldPlace.location);
       return this.http.put(`https://placebookingapp-4a6bc.firebaseio.com/offered-places/${placeId}.json`,
       { ...editedPlaces[index], id:null });
     }),tap(() => {

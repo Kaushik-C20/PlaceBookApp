@@ -16,7 +16,7 @@
   <form [formGroup]="form">
     <ion-grid>
       <ion-row>
-        <ion-col size-sm="6" offset-sm="3">
+        <ion-col size-md="6" offset-md="3">
           <ion-item>
             <ion-label position="floating">Title</ion-label>
             <ion-input type="text" autocomplete autocorrect formControlName="title"></ion-input>
@@ -24,7 +24,7 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size-sm="6" offset-sm="3">
+        <ion-col size-md="6" offset-md="3">
           <ion-item>
             <ion-label position="floating">Short Description</ion-label>
             <ion-textarea rows="3" [autoGrow]="true" formControlName="description"></ion-textarea>
@@ -32,12 +32,12 @@
         </ion-col>
       </ion-row>
       <ion-row *ngIf="!form.get('description').valid && form.get('description').touched">
-        <ion-col size-sm="6" offset-sm="3">
+        <ion-col size-md="6" offset-md="3">
           <p>Description must be between 1 and 180 chars</p>
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size-sm="6" offset-sm="3">
+        <ion-col size-md="6" offset-md="3">
           <ion-item>
             <ion-label position="floating">Price</ion-label>
             <ion-input type="number" formControlName="price"></ion-input>
@@ -45,19 +45,29 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size-sm="3" offset-sm="3">
+        <ion-col size-md="3" offset-md="3">
           <ion-item>
             <ion-label position="floating">Available from</ion-label>
             <ion-datetime min="2020-02-10" max="2020-05-31" formControlName="datefrom"></ion-datetime>
           </ion-item>
         </ion-col>
-        <ion-col size-sm="3">
+        <ion-col size-md="3">
           <ion-item>
             <ion-label position="floating">Available till</ion-label>
             <ion-datetime min="2020-05-31" max="2025-01-01" formControlName="dateto"></ion-datetime>
           </ion-item>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col size-md="3" offset-md="3">
+          <app-location-picker (locationPick)="onLocationPicked($event)"></app-location-picker>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row>
+        <ion-col size-md="3" offset-md="3">
+          <app-image-picker (imagePick)="onImagePicked($event)"></app-image-picker>
+        </ion-col>
+      </ion-row> -->
     </ion-grid>
   </form>
 </ion-content>
