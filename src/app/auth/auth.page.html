@@ -50,7 +50,7 @@
           color="primary" 
           type="submit" (click)="onLogin()" 
           expand="block"
-          [disabled]="form.valid">
+          [disabled]="!form.valid">
             Login
           </ion-button>
         </ion-col>
