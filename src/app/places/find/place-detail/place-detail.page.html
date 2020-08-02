@@ -37,7 +37,7 @@
         <ion-img [src]="place.location.staticMapImageUrl" (click)="ShowMap()" class="location-image" role="button"></ion-img>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="isBookable">
+    <ion-row *ngIf="isBookable" >
       <ion-col size-md="6" offset-md="3" class="ion-text-center">
         <ion-button color='primary' (click)='onBookPlace()' style="margin-top:20px;">Book</ion-button>
       </ion-col>
